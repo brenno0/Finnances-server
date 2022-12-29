@@ -7,10 +7,11 @@ interface ICreateProducts {
     userId:string;
     categoryId:string;
     banksId:string;
+    transactionDate:Date;
 }
 
 export class CreateProductsUseCase {
-    async execute({ name, price, description, userId, categoryId, banksId }: ICreateProducts) {
+    async execute({ name, price, description, userId, categoryId, banksId, transactionDate }: ICreateProducts) {
         
         if(!name || typeof name !== "string"){
             throw new Error("O Campo nome é obrigatório e precisa ser uma string")
@@ -45,7 +46,7 @@ export class CreateProductsUseCase {
 
         const isBankRegistered = await prisma.banks.findFirst({
             where:{
-                id:banksId
+                id:banksId,
             }
         })
 
@@ -67,7 +68,8 @@ export class CreateProductsUseCase {
                 description,
                 userId,
                 categoryId,
-                banksId
+                banksId,
+                transactionDate
             }
         })
 
